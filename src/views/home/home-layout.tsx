@@ -6,10 +6,11 @@ import {Link, useSearchParams} from "react-router-dom";
 import {Navbar} from "../../components/navbar.tsx";
 import {SearchNews} from "./search-news.tsx";
 import {TopHeadlines} from "./top-headlines.tsx";
+import {NewsPayload} from "./constants.ts";
 
 const APIKEY = "244b0138113540fe9c325c215323e51c";
 const topHeadlinesURL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${APIKEY}`
-const fetcher = (url: string) => axios.get(url).then(res => res.data)
+const fetcher = (url: string) => axios.get<NewsPayload>(url).then(res => res.data)
 
 export function Home() {
     const { data: topHeadlines, isLoading } = useSWR(topHeadlinesURL, fetcher)
@@ -72,7 +73,7 @@ export function Home() {
             <main>
                 {searchParams.get("q") ?
                     <SearchNews news={searchedNews} isLoading={isLoadingSearchedNews}/> :
-                    <TopHeadlines headlines={topHeadlines.articles} isLoading={isLoading} />
+                    <TopHeadlines headlines={topHeadlines} isLoading={isLoading} />
                 }
             </main>
         </>

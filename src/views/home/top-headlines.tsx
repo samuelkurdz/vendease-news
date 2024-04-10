@@ -4,26 +4,26 @@ import {useBookmarkStore} from "../bookmarks/bookmarks.ts";
 
 
 interface TopHeadlinesProps {
-    headlines: NewsPayload["articles"]
+    headlines?: NewsPayload
     isLoading: boolean
 }
 
 
 export function TopHeadlines({headlines, isLoading}: TopHeadlinesProps) {
     const bookmarkArticle = useBookmarkStore((state) => state.bookmarkArticle);
-    const randomTopHeadline = Math.floor(
-        Math.random() * headlines.filter((headline) => headline.urlToImage).length
-    );
+    const randomTopHeadline = headlines ? Math.floor(
+        Math.random() * headlines.articles.filter((headline) => headline.urlToImage).length
+    ): 1;
 
     return (
         <div>
-            <h4>Top Headlines ({headlines.length})</h4>
+            <h4>Top Headlines ({headlines?.articles.length ?? 0})</h4>
             <br/>
             {isLoading && "is loading..."}
             {
                 headlines &&
                 <div className="top-headlines-grid">
-                    {headlines.filter((headline) => headline.urlToImage).map((headline, index) => (
+                    {headlines.articles.filter((headline) => headline.urlToImage).map((headline, index) => (
                         <article key={headline.title} id={index === randomTopHeadline ? "hero-news" : ""}>
                             <img src={headline.urlToImage!} alt=""/>
                             <h4>{headline.title}</h4>

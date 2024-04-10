@@ -3,7 +3,7 @@ import {useBookmarkStore} from "../bookmarks/bookmarks.ts";
 
 
 interface SearchNewsProps {
-    news: NewsPayload;
+    news?: NewsPayload;
     isLoading: boolean
 }
 
